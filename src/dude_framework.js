@@ -79,7 +79,7 @@ function removeBrackets(movieName){
 }
 
 function removeSuffix(movieName){
-	foreach([" - Criterion Collection", " - Used"], function(suffix){
+	foreach([" - Criterion Collection", " - Used", " - The Complete Collections"], function(suffix){
 		if (movieName.endsWith(suffix)){
 			movieName = movieName.removeSuffix(suffix).trim();
 			return true;

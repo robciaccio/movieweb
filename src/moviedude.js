@@ -26,6 +26,10 @@
 // @include	http://rogerebert.suntimes.com/*
 // @include	http://amazon.com/*
 // @include	http://*.amazon.com/*
+// @include	http://amazon.ca/*
+// @include	http://*.amazon.ca/*
+// @include	http://amazon.co.uk/*
+// @include	http://*.amazon.co.uk/*
 // @include	http://allmovie.com/*
 // @include	http://*.allmovie.com/*
 // @include	http://www.greencine.com/webCatalog?*
@@ -53,7 +57,8 @@ var SiteGroups = [
 	["Rentals", ["netflix", "greencine", "intelliflix"]],
 	["", ["bb", "bb_uk"]],
 	["Critics", ["ebert","rotten", "metacritic"]],
-	["Times &amp; Sales", ["amazon","yahoo", "walmart"]],
+	["Times &amp; Sales", ["yahoo", "walmart"]],
+	["Amazon:", ["am_us", "am_uk", "am_ca"]]
 ];
 
 // -- Site definitions
@@ -67,7 +72,7 @@ var Sites = {
 		getTitle: function(title){return title.after(':');}
 	},
 
-	amazon: {
+	am_us: {
 		name: "Amazon",
 		xpath: "//b[@class='sans']",
 		icon: "http://www.amazon.com/favicon.ico",
@@ -75,6 +80,26 @@ var Sites = {
 		scanURL:"amazon.com",
 			
 		validPage: function(pageTitle){return (pageTitle.indexOfAny(["DVD:", "movie info:"]) > -1);}
+	},
+
+	am_uk: {
+		name: "Amazon (UK)",
+		xpath: "//b[@class='sans']",
+		icon: "http://www.amazon.co.uk/favicon.ico",
+		link: "http://www.amazon.co.uk/s/?url=search-alias%3Ddvd&field-keywords={search}", 
+		scanURL:"amazon.co.uk",
+			
+		validPage: function(pageTitle){return (pageTitle.indexOfAny(["DVD", "movie info:"]) > -1);}
+	},
+
+	am_ca: {
+		name: "Amazon (CA)",
+		xpath: "//b[@class='sans']",
+		icon: "http://www.amazon.ca/favicon.ico",
+		link: "http://www.amazon.ca/s/?url=search-alias%3Ddvd&field-keywords={search}", 
+		scanURL:"amazon.ca",
+			
+		validPage: function(pageTitle){return (pageTitle.indexOfAny(["DVD", "movie info:"]) > -1);}
 	},
 
 	bb: {

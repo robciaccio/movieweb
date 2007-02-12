@@ -66,9 +66,9 @@ function hide(id){
 	if (e) e.style.display = "none";
 }
 
-function addEvent(elementID, eventName, handler, b){
+function addEvent(elementID, eventName, handler, capture){
 	var e = $(elementID);
-	if (e) e.addEventListener(eventName, handler, b);
+	if (e) e.addEventListener(eventName, handler, capture);
 }
 
 // Extract the text from the given DOM node.
