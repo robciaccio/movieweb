@@ -4,12 +4,12 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.6.1',
+		'version' => '1.6.3',
 		'description' => "Cross-links game sites so you don't have to.",
 	}
 %>
 // ==UserScript==
-// @name The Movie Dude: Working Version
+// @name The Movie Dude
 // @namespace	http://adamv.com/greases/
 // @description 	<%= @script_info['description'] %>
 // @include	http://adamv.com/dev/grease/moviedude*
@@ -40,8 +40,6 @@
 // @include http://www.intelliflix.com/*
 // ==/UserScript==
 
-var Defaults = { xpath: "//*[@class='title']" };
-
 var icons = {
 	allmovie : "data:image/gif;base64,R0lGODlhEAAQAKIAAJPH5S%2BPyQx7v1yq2f3%2B%2F7%2Fg8%2B32%2FN3t%2BCH5BAAAAAAALAAAAAAQABAAAANJKLrcriA8FwiYrZCDVzAEIXXDEV4dAIDH%2BAyXSQwYQANhMQXFEOAEA80xKKhWp4dtMQi1Gr8GaMb49SSBksFQ0HkCLrDY1WkkAAA7",
 	blockbuster: 'data:image/gif;base64,R0lGODlhEAAQAKIAACMiNunXmvXRY9u4aGVJIKOFSRAibXF0fCH5BAAAAAAALAAAAAAQABAAAANjaLp7zgoQd2S4gJ0y7ijEIASZclyCGAyhIBBLyxYjQQsFI7JhALqDkmEgKtB4gZGQs0sRWgGYIrTbcUaVDIDIcxmBNgPg+rS6VgFTkeMjXN6mVOpCGIMAQq6xDtHUhX2BggYJADs=',
@@ -58,7 +56,7 @@ var SiteGroups = [
 	["", ["bb", "bb_uk"]],
 	["Critics", ["ebert","rotten", "metacritic"]],
 	["Times &amp; Sales", ["yahoo", "walmart"]],
-	["Amazon:", ["am_us", "am_uk", "am_ca"]]
+	["Amazon", ["am_us", "am_uk", "am_ca"]]
 ];
 
 // -- Site definitions
@@ -73,7 +71,7 @@ var Sites = {
 	},
 
 	am_us: {
-		name: "Amazon",
+		name: "Amazon (US)",
 		xpath: "//b[@class='sans']",
 		icon: "http://www.amazon.com/favicon.ico",
 		link: "http://www.amazon.com/s/?url=search-alias%3Ddvd&field-keywords={search}", 
@@ -103,7 +101,7 @@ var Sites = {
 	},
 
 	bb: {
-		name: "Blockbuster",
+		name: "Blockbuster (US)",
 		xpath: "//*[@class='headline1']",
 		icon: icons.blockbuster,
 		form: ["http://blockbuster.com/search/PerformKeyWordSearchAction.action",
@@ -156,7 +154,7 @@ var Sites = {
 		link: "http://imdb.com/find?q={search};tt=on;nm=on;mx=20",
 		icon: "http://imdb.com/favicon.ico",
 		scanURL:"imdb.com",
-		xpath: Defaults.xpath,
+		xpath: "//*[@id='tn15title']",
 		validPage: function(pageTitle){return (pageTitle.indexOfAny(["(VG)"]) == -1);}
 	},
 
@@ -205,14 +203,14 @@ var Sites = {
 		link: "http://www.walmart.com/catalog/search-ng.gsp?search_constraint=4096&search_query={search}",
 		icon: "http://www.walmart.com/favicon.ico",
 		scanURL: "walmart.com",
-		xpath: Defaults.xpath,
+		xpath: "//*[@class='title']",
 	},
 
 	wikipedia: {
 		name: "Wikipedia",
 		link: "http://en.wikipedia.org/wiki/Special:Search?search={search}&go=Go",
 		icon: "http://en.wikipedia.org/favicon.ico",
-		xpath: Defaults.xpath,
+		xpath: "//*[@class='title']",
 	},
 	
 	yahoo: {
