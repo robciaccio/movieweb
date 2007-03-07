@@ -4,7 +4,7 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.6.3',
+		'version' => '1.6.3b',
 		'description' => "Cross-links game sites so you don't have to.",
 	}
 %>
@@ -17,8 +17,7 @@
 // @include	http://*.imdb.com/title/*
 // @include	http://netflix.com/MovieDisplay?*
 // @include	http://www.netflix.com/MovieDisplay?*
-// @include	http://blockbuster.com/*
-// @include	http://www.blockbuster.com/*
+// @include	http://www.blockbuster.com/online/catalog/movieDetails*
 // @include http://blockbuster.co.uk/*
 // @include http://www.blockbuster.co.uk/*
 // @include	http://movies.yahoo.com/*
@@ -102,10 +101,9 @@ var Sites = {
 
 	bb: {
 		name: "Blockbuster (US)",
-		xpath: "//*[@class='headline1']",
-		icon: icons.blockbuster,
-		form: ["http://blockbuster.com/search/PerformKeyWordSearchAction.action",
-			{schannel: "Movies", keyword: "*", searchType:"Movies"}],
+		xpath: "//div[@class='pagetitle']//h1",
+		link: "http://www.blockbuster.com/online/search/PerformKeyWordSearchAction?channel=Movies&subChannel=sub&keyword={search}",
+		icon: "http://www.blockbuster.com:80/online/content/img/favicon.png",
 		scanURL:"blockbuster.com",
 	},
 
