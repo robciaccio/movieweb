@@ -4,7 +4,7 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.6.3b',
+		'version' => '1.6.4',
 		'description' => "Cross-links game sites so you don't have to.",
 	}
 %>
@@ -37,6 +37,7 @@
 // @include	http://www.metacritic.com/film/*
 // @include http://www.filmaffinity.com/*
 // @include http://www.intelliflix.com/*
+// @include http://www.flixster.com/*
 // ==/UserScript==
 
 var icons = {
@@ -50,7 +51,7 @@ var icons = {
 
 var SiteGroups = [
 	["Information", ["imdb", "allmovie", "wikipedia"]],
-	["Social", ["filmaff"]],
+	["Social", ["filmaff", "flixster"]],
 	["Rentals", ["netflix", "greencine", "intelliflix"]],
 	["", ["bb", "bb_uk"]],
 	["Critics", ["ebert","rotten", "metacritic"]],
@@ -138,6 +139,18 @@ var Sites = {
 		link: "http://www.filmaffinity.com/en/search.php?stype=title&stext={search}",
 		scanURL: "filmaffinity.com",
 		},
+		
+	flixster: {
+		name: "Flixster",
+		link: "http://www.flixster.com/movies.do?movieAction=doMovieSearch&search={search}",
+		scanURL: "flixster.com",
+		icon: "http://www.flixster.com/favicon.ico",
+		xpath: "//*[@class='profile_mbox_header profile_mbox_title']",
+		
+		prepareToInsert: function(titleNode){
+			titleNode.style.height = "auto";
+		}
+	},
 
 	greencine: {
 		name: "GreenCine",

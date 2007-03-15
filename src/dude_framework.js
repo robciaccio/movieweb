@@ -4,7 +4,7 @@
 	<%= @script_info['version'] %>
 	<% require 'date' %><%= DateTime.now().strftime('%e %b %Y, %I:%M%P') %>
 
-	Copyright (c) 2005-<%= DateTime.now().year % 10 %>, Adam Vandenberg
+	Developed 2005-<%= DateTime.now().year % 10 %>, Adam Vandenberg
 	Released under the GPL license
 	http://www.gnu.org/copyleft/gpl.html
 */
@@ -65,6 +65,8 @@ _extend(Site.prototype, {
 	GetHTML: function(movieTitle){return this.GetLink(movieTitle) + this.GetForm(movieTitle);},
 	
 	processTitleNode: function(titleNode){return titleNode;},
+	
+	prepareToInsert: function(titleNode){}
 });
 
 function setPreference(event){GM_setValue(this.value, this.checked);}
@@ -213,22 +215,24 @@ function LinkEmUp(){
 			
 		s += site.GetHTML(movieName);
 	});
+	
+	whichSite.prepareToInsert(titleNode);
 
 	titleNode.innerHTML += ( "<span id='_md_links'><br />" + s + "</span>");
-	addCSS(
-"#_md_links, #_md_prefs, #_md_links a {font-size:10pt;font-weight:normal;text-transform: none;}",
-"#_md_prefs_link {cursor: pointer;}",
-"a._md_config { font-size:10pt;font-weight:normal;text-transform: none; text-decoration: none; cursor: pointer; color: black;}",
-"a._md_config:hover { background: #336699; color: white; cursor: pointer;}",
-"#_md_prefs {position:fixed; bottom:auto; left:0; right:0; top:0; color:black; font: normal 11px sans-serif; background:#eee; border-bottom:2px #69c solid;}",
-"#_md_prefs, #_md_prefs td {font-family: verdana, sans-serif; font-size: 10pt;}",
-"#_md_prefs div {padding:5px 0 0.4em 0; margin: 0px auto;width: 700px;}",
-"#_md_prefs button {font: normal 11px sans-serif; border: 1px solid #0080cc; color: #333; cursor: pointer; background: #FFF;}"
-);
-	
 	addEvent("_md_prefs_link", "click", ShowPreferences);
 	addEvent("_md_config", "click", ShowPreferences);
 }
+
+addCSS(
+	"#_md_links, #_md_prefs, #_md_links a {font-size:10pt;font-weight:normal;text-transform: none;}",
+	"#_md_prefs_link {cursor: pointer;}",
+	"a._md_config { font-size:10pt;font-weight:normal;text-transform: none; text-decoration: none; cursor: pointer; color: black;}",
+	"a._md_config:hover { background: #336699; color: white; cursor: pointer;}",
+	"#_md_prefs {position:fixed; bottom:auto; left:0; right:0; top:0; color:black; font: normal 11px sans-serif; background:#eee; border-bottom:2px #69c solid;}",
+	"#_md_prefs, #_md_prefs td {font-family: verdana, sans-serif; font-size: 10pt;}",
+	"#_md_prefs div {padding:5px 0 0.4em 0; margin: 0px auto;width: 700px;}",
+	"#_md_prefs button {font: normal 11px sans-serif; border: 1px solid #0080cc; color: #333; cursor: pointer; background: #FFF;}"
+	);
 
 GM_registerMenuCommand("<%= @script_info['title_short'] %> Settings...", ShowPreferences);
 LinkEmUp();
