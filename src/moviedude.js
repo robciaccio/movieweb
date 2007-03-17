@@ -4,7 +4,7 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.6.4',
+		'version' => '1.6.5',
 		'description' => "Cross-links game sites so you don't have to.",
 	}
 %>
@@ -38,6 +38,8 @@
 // @include http://www.filmaffinity.com/*
 // @include http://www.intelliflix.com/*
 // @include http://www.flixster.com/*
+// @include http://www.hbo.com/apps/schedule/*
+// @include http://www.sho.com/site/schedules/*
 // ==/UserScript==
 
 var icons = {
@@ -64,10 +66,9 @@ var Sites = {
 	allmovie: {
 		name: "All Movie",
 		icon: icons.allmovie,
-		form: ["http://www.allmovie.com/cg/avg.dll", {P: "avg", srch: "*", TYPE:"12"}],
+		form: ["http://www.allmovie.com/cg/avg.dll", {p: "avg", sql: "*", opt1:"12"}],
 		scanURL:"allmovie.com",
-		
-		getTitle: function(title){return title.after(':');}
+		xpath: "//*[@class='title']"
 	},
 
 	am_us: {
@@ -104,7 +105,7 @@ var Sites = {
 		name: "Blockbuster (US)",
 		xpath: "//div[@class='pagetitle']//h1",
 		link: "http://www.blockbuster.com/online/search/PerformKeyWordSearchAction?channel=Movies&subChannel=sub&keyword={search}",
-		icon: "http://www.blockbuster.com:80/online/content/img/favicon.png",
+		icon: "http://www.blockbuster.com/app/v.4.0.12/img/favicon.png",
 		scanURL:"blockbuster.com",
 	},
 
@@ -159,6 +160,12 @@ var Sites = {
 		form: ["http://www.greencine.com/catalogQuickSearch", {SEARCH_STRING: "*"}],
 		scanURL:"greencine.com",
 	},
+	
+	hbo: {
+		name: "HBO Schedule",
+		xpath: "//td[@class='rightnav-subhead']",
+		scanURL: "hbo.com"
+	},
 
 	imdb: {
 		name: "IMDb",
@@ -207,6 +214,12 @@ var Sites = {
 		link: "http://www.rottentomatoes.com/search/full_search.php?search={search}",
 		icon: "http://www.rottentomatoes.com/favicon.ico",
 		scanURL:"rottentomatoes.com",
+	},
+	
+	sho: {
+		name: "Showtime Schedule",
+		xpath: "//*[@class='movietitle']",
+		scanURL: "sho.com"
 	},
 
 	walmart: {

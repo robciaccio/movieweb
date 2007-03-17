@@ -29,7 +29,6 @@ function Site(definition, key){
 
 _extend(Site.prototype, {
 	icon: icons.noFavicon,
-	link: "{form}",
 	validPage: function(pageTitle){return true;},
 	
 	GetForm: function(movieTitle){
@@ -62,7 +61,19 @@ _extend(Site.prototype, {
 		return html;
 	},
 	
-	GetHTML: function(movieTitle){return this.GetLink(movieTitle) + this.GetForm(movieTitle);},
+	GetHTML: function(movieTitle){
+		var html = '';
+		if (this.form != null && this.link==null)
+			this.link = "{form}";
+		
+		if (this.link!=null)
+			html += this.GetLink(movieTitle);
+			
+		if (this.form != null)
+			html += this.GetForm(movieTitle);
+			
+		return html;
+	},
 	
 	processTitleNode: function(titleNode){return titleNode;},
 	
