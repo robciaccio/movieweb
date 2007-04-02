@@ -15,8 +15,8 @@
 // @include	http://adamv.com/dev/grease/moviedude*
 // @include	http://imdb.com/title/*
 // @include	http://*.imdb.com/title/*
-// @include	http://netflix.com/MovieDisplay?*
-// @include	http://www.netflix.com/MovieDisplay?*
+// @include	http://netflix.com/Movie/*
+// @include	http://www.netflix.com/Movie/*
 // @include	http://www.blockbuster.com/online/catalog/movieDetails*
 // @include http://blockbuster.co.uk/*
 // @include http://www.blockbuster.co.uk/*
@@ -40,6 +40,9 @@
 // @include http://www.flixster.com/*
 // @include http://www.hbo.com/apps/schedule/*
 // @include http://www.sho.com/site/schedules/*
+// @include http://www.slantmagazine.com/film/*
+// @include http://www.slantmagazine.com/tv/*
+// @include http://www.slantmagazine.com/dvd/*
 // ==/UserScript==
 
 var icons = {
@@ -56,7 +59,7 @@ var SiteGroups = [
 	["Social", ["filmaff", "flixster"]],
 	["Rentals", ["netflix", "greencine", "intelliflix"]],
 	["", ["bb", "bb_uk"]],
-	["Critics", ["ebert","rotten", "metacritic"]],
+	["Critics", ["ebert","rotten", "metacritic", "slant"]],
 	["Times &amp; Sales", ["yahoo", "walmart"]],
 	["Amazon", ["am_us", "am_uk", "am_ca"]]
 ];
@@ -203,7 +206,7 @@ var Sites = {
 	netflix: {
 		name: "NetFlix",
 		xpath: "//div[@class='title']",
-		link: "http://www.netflix.com/Search?v1={search}&type=title&row=title&dtl=1",
+		link: "http://www.netflix.com/Search?v1={search}",
 		icon: "http://cdn.nflximg.com/us/icons/nficon.ico",
 		scanURL:"netflix.com",
 	},
@@ -220,6 +223,13 @@ var Sites = {
 		name: "Showtime Schedule",
 		xpath: "//*[@class='movietitle']",
 		scanURL: "sho.com"
+	},
+	
+	slant: {
+		name: "Slant Magazine",
+		xpath: "//div[@class='review_title']",
+		scanURL: "slantmagazine.com",
+		icon: "http://www.slantmagazine.com/favicon.ico"
 	},
 
 	walmart: {
