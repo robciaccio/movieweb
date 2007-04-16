@@ -4,7 +4,7 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.6.5',
+		'version' => '1.6.7',
 		'description' => "Cross-links game sites so you don't have to.",
 	}
 %>
@@ -43,6 +43,8 @@
 // @include http://www.slantmagazine.com/film/*
 // @include http://www.slantmagazine.com/tv/*
 // @include http://www.slantmagazine.com/dvd/*
+// @include http://filmspot.com/*
+// @include http://www.filmspot.com/*
 // ==/UserScript==
 
 var icons = {
@@ -55,7 +57,7 @@ var icons = {
 };
 
 var SiteGroups = [
-	["Information", ["imdb", "allmovie", "wikipedia"]],
+	["Information", ["imdb", "allmovie", "wikipedia", "filmspot"]],
 	["Social", ["filmaff", "flixster"]],
 	["Rentals", ["netflix", "greencine", "intelliflix"]],
 	["", ["bb", "bb_uk"]],
@@ -108,7 +110,7 @@ var Sites = {
 		name: "Blockbuster (US)",
 		xpath: "//div[@class='pagetitle']//h1",
 		link: "http://www.blockbuster.com/online/search/PerformKeyWordSearchAction?channel=Movies&subChannel=sub&keyword={search}",
-		icon: "http://www.blockbuster.com/app/v.4.0.12/img/favicon.png",
+		icon: "http://www.blockbuster.com/app/v.4.12.2/img/favicon.png",
 		scanURL:"blockbuster.com",
 	},
 
@@ -144,6 +146,13 @@ var Sites = {
 		scanURL: "filmaffinity.com",
 		},
 		
+	filmspot: {
+		name: "FilmSpot",
+		link: "http://www.filmspot.com/search/index.php?qs={search}&tag=search%3Bbutton",
+		// scanURL: "filmspot.com",
+		xpath: "//div[@id='content_head']//h1/a"
+	},
+		
 	flixster: {
 		name: "Flixster",
 		link: "http://www.flixster.com/movies.do?movieAction=doMovieSearch&search={search}",
@@ -176,7 +185,20 @@ var Sites = {
 		icon: "http://imdb.com/favicon.ico",
 		scanURL:"imdb.com",
 		xpath: "//*[@id='tn15title']",
-		validPage: function(pageTitle){return (pageTitle.indexOfAny(["(VG)"]) == -1);}
+
+		validPage: function(pageTitle){return (pageTitle.indexOfAny(["(VG)"]) == -1);},
+		
+		getTitleFromTitleNode: function(titleNode){
+			var smallNode = selectNode('.//small', titleNode);
+			if (smallNode != null)
+			{
+				var a = selectNode(".//a", titleNode);
+				if (a != null) 
+					return $T(a);
+			}
+
+			return $T(titleNode);
+		}
 	},
 
 	intelliflix: {

@@ -200,7 +200,11 @@ function LinkEmUp(){
 		titleNode = selectNode(whichSite.xpath);
 		if (titleNode != null) {
 			titleNode = whichSite.processTitleNode(titleNode);
-			movieName = $T(titleNode);
+			
+			if (whichSite.getTitleFromTitleNode)
+				movieName = whichSite.getTitleFromTitleNode(titleNode);
+			else
+				movieName = $T(titleNode);
 		}
 		else return; // abort if the xpath gave us nothing
 	}
