@@ -16,6 +16,11 @@ module Dudemaker
       filenames.map {|filename| Preprocessor.new(filename, get_binding).to_s}.join("\n")
     end
     
+    def includeCSS(filename)
+      loaded = Preprocessor.new(filename, get_binding).to_s
+      return loaded.gsub(/\n/, ' ').gsub(/\"/, '\\"')
+    end
+    
     def initialize(filename, aBinding = nil)
       @filename = File.expand_path(filename)
       @template = ERB.new(IO.read(@filename), nil, '%')
@@ -34,7 +39,7 @@ module Dudemaker
     def to_s
       @template.result(get_binding).strip_whitespace_at_line_ends
     end
-  end  
+  end
 end
 
 if __FILE__ == $0

@@ -1,0 +1,113 @@
+#_md_prefs { 
+	z-index: 1000; 
+	color: #444;
+	background-color: #f8f4e8; 
+
+	position: fixed;
+	bottom: auto;
+	left: 0;
+	right: 0;
+	top: 0;
+	color: black;
+	font: normal 11px sans-serif;
+
+	border-bottom: 2px #055458 solid;
+}
+
+#_md_version {
+	background-color: transparent;
+	float: right;
+	color: black;
+	font-size: 10px;
+}
+
+hr#footer-break {
+	clear: both;
+	padding: 24px 0 0 0;
+	margin: 0;
+	border: none;
+	background: #f7e6ab url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAYCAIAAAC0rgCNAAAACXBIWXMAAAsTAAALEwEAmpwYAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn%2FAACA6QAAdTAAAOpgAAA6mAAAF2%2BSX8VGAAAAPUlEQVR42izGsQHDAAzDMJr%2FH9oDMnSwpQ7pBPB9PkKE2MZphJOe5IS1jbDSc7q25%2FBK1iG2K%2BT%2FSCvDbwBfPCu3pfivSQAAAABJRU5ErkJggg%3D%3D) repeat-x left top;
+}
+
+#_md_title {
+	color: white;
+	margin: 0;
+	padding: 5px 0;
+}
+
+._md_centered {
+	background-color: #055458;
+}
+
+#_md_title .version { padding-right: 1em;}
+
+#_md_title a {
+	color: #8DC5C7;
+	text-decoration: none;
+	font-style: italic;
+}
+
+#_md_title b { margin-right: 3em; }
+
+#_md_links, #_md_prefs, #_md_links a {font-size:10pt;font-weight:normal;text-transform: none;}
+
+#_md_prefs_link {cursor: pointer;}
+
+a._md_config {
+	font-size: 10pt;
+	font-weight: normal;
+	text-transform: none;
+	text-decoration: none;
+	cursor: pointer;
+	color: black;
+}
+
+a._md_config:hover { background: #336699; color: white; cursor: pointer;}
+
+#_md_prefs, 
+#_md_prefs caption {
+	font-family: Georgia, serif;
+	font-size: 14px;
+}
+
+#_md_prefs td {
+	font-family: Helvetica, Arial;
+	font-size: 12px;
+}
+
+div#_md_wrapper {
+	padding-bottom: 0.4em; 
+	margin: 0px auto;
+	width: 700px;
+}
+
+div#_md_wrapper2 {
+	padding-bottom: 0.4em; 
+	margin: 0px auto;
+	width: 700px;
+	background-color: #f8f4e8; 
+}
+
+#_md_prefs button {
+	border: 1px solid #0080cc;
+	color: #333;
+	cursor: pointer;
+	background: #FFF;
+}
+
+#_md_link_table td { 
+	padding-left: 1em;
+}
+
+#_md_prefs caption {
+	padding: 1em 0 0.5em 0;
+	text-align: left;
+	font-weight: bold;
+}
+
+hr#header-shadow {
+	padding: 24px 0 0 0;
+	margin: 0;
+	border: none;
+	background: #f8f4e8 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAYCAIAAAC0rgCNAAAACXBIWXMAAAsTAAALEwEAmpwYAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn%2FAACA6QAAdTAAAOpgAAA6mAAAF2%2BSX8VGAAAAOklEQVR42izIsRHEQAyAQEDqvxH35RYc3gd%2FEcz2vU8cQtM6FJTu%2F9t0Oty64QSbFmw016Zj1wv6DQBlzgkFTlSeZgAAAABJRU5ErkJggg%3D%3D) repeat-x left top;
+}

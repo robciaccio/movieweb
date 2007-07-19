@@ -4,11 +4,12 @@
 	<%= @script_info['version'] %>
 	<% require 'date' %><%= DateTime.now().strftime('%e %b %Y, %I:%M%P') %>
 
-	Developed 2005-<%= DateTime.now().year % 10 %>, Adam Vandenberg
-	Released under the GPL license
-	http://www.gnu.org/copyleft/gpl.html
+	Developed 2005-<%= DateTime.now().year % 10 %> by Adam Vandenberg
+	Released under the GPL license: http://www.gnu.org/copyleft/gpl.html
 */
-<%= include 'basics.js', 'html.js' %>
+<%= 
+	include 'basics.js', 'html.js'
+%>
 
 function addCSS(){ 
 	for(var i=0;i<arguments.length;i++) GM_addStyle(arguments[i]);
@@ -29,7 +30,12 @@ function Site(definition, key){
 
 _extend(Site.prototype, {
 	icon: icons.noFavicon,
+	insertBreak: true,
 	validPage: function(pageTitle){return true;},
+	
+	canLinkTo: function(){
+		return (this.form != null || this.link != null);
+	},
 	
 	GetForm: function(movieTitle){
 		if (this.form == null)
@@ -77,7 +83,11 @@ _extend(Site.prototype, {
 	
 	processTitleNode: function(titleNode){return titleNode;},
 	
-	prepareToInsert: function(titleNode){}
+	prepareToInsert: function(titleNode){},
+	
+	getWhereToInsert: function(titleNode){return titleNode;},
+	
+	getTitleFromTitleNode: function(titleNode){return $T(titleNode);},
 });
 
 function setPreference(event){GM_setValue(this.value, this.checked);}
@@ -102,6 +112,80 @@ function removeSuffix(movieName){
 	return movieName;
 }
 
+function GetSitePref(siteID){
+	var siteName = Sites[siteID].name;
+	var checked = (GM_getValue(siteID, true)) ? " checked='checked'" : "";
+	
+	return ( "&nbsp;<input type='checkbox' name='_md_pref' id='_md_pref_{siteID}' value='{siteID}'{checked} /> <label for='_md_pref_{siteID}'><img src='{icon}' width='16' height='16' border='0' /> {siteName}</label>".template({siteID: siteID, checked: checked, siteName: siteName, icon: Sites[siteID].icon}));
+}
+
+function GetNewPreferenceRow(rowNumber){
+	var row = [];
+
+	for(var col=0; col < 4; col++){
+		var realIndex = col*6+rowNumber;
+		
+		if (realIndex < site_names.length){
+			row.push(GetSitePref(site_names[realIndex]))
+		} else {
+			row.push("");
+		}
+	}
+	
+	return row;
+}
+
+function CreatePreferencesPanel(prefs_div){
+	prefs_div.innerHTML="";
+
+	var s = "<div class='_md_centered'><div id='_md_wrapper'><div id='_md_title'><b>The Movie Dude</b> <a href='http://adamv.com/dev/grease/moviedude'>Home Page</a> &bull; <a href='mailto:Movie.Dude.Script@gmail.com'>Contact</a> &bull; <a href='https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@adamv.com&amount=&return=&item_name=Buy+Me+a+Beer'>Buy Me a Beer</a></div></div></div>";
+	
+	s += "<hr id='header-shadow'><div id='_md_wrapper2'>";
+	
+	s += "<b>Display as:</b> ";
+	s += Html.Select("_md_display_type", GM_getValue("linkStyle", "0"), 
+		[["0", "Text &amp; Icons"],["1", "Icons only"],["2","Text only"]]);
+
+	s += '<br />';
+
+	var linkStyle = GM_getValue("linkStyle", "0");
+	
+	
+	var table = [];
+	for(var row=0; row < 6; row++){
+		table.push(GetNewPreferenceRow(row));
+	}
+	
+	table_html = Table(table);
+	table_html = table_html.replace("<table>", "<table id='_md_link_table'><caption>Show links to these sites:</caption>");
+	
+	s += table_html;
+	s += "<br /><div id='_md_version'>Version <%= @script_info['version'] %></div><button id='_md_close'>Close &amp; Refresh</button></div>"
+	s += "<hr id='footer-break'></div>"
+	prefs_div.innerHTML = s;
+	document.body.appendChild(prefs_div);
+	
+	AddPreferencePanelEvents(prefs_div);
+}
+
+function AddPreferencePanelEvents(prefs_div){
+	addEvent("_md_close", "click", function (e){
+		hide("_md_prefs");
+		
+		var md_links = $('_md_links');
+		md_links.parentNode.removeChild(md_links);
+		LinkEmUp();
+	});
+	
+	addEvent("_md_display_type", "change", function(e){
+		var select = $("_md_display_type");
+		GM_setValue("linkStyle", select.options[select.selectedIndex].value);
+	});
+	
+	xpath("//input[@name='_md_pref']", prefs_div, function(box){
+		addEvent(box, "click", setPreference);
+	});
+}
 
 function ShowPreferences(){	
 	var prefs = $("_md_prefs");
@@ -109,49 +193,7 @@ function ShowPreferences(){
 		prefs = document.createElement("div")
 		prefs.id = "_md_prefs";
 		
-		var s = "<div>";
-		s += "<b><%= @script_info['title'] %></b><br />"
-		s += "Version <font color='#336699'><%= @script_info['version'] %></font> &bull; ";
-		s += "<a href='<%= @script_info['home'] %>'>Home Page</a> &bull; <a href='mailto:<%= @script_info['contact'] %>'>Contact</a><br />";
-		s += "<br />";
-		
-		s += "<b>Display as:</b> ";
-		s += Html.Select("_md_display_type", GM_getValue("linkStyle", "0"), 
-			[["0", "Text &amp; Icons"],["1", "Icons only"],["2","Text only"]]);
-
-		s += '<br />';
-		s += "<b>Show links to:</b><br />";
-		var linkStyle = GM_getValue("linkStyle", "0");
-		
-		var table = [];
-		foreach(SiteGroups, function(group){
-			var row = [];
-			if (group[0] != "")
-				row.push("<font color='#336699'>"+group[0] + ":</font>");
-			else
-				row.push("")
-				
-			foreach(group[1], function(siteID){
-				var siteName = Sites[siteID].name;
-				var checked = (GM_getValue(siteID, true)) ? " checked='checked'" : "";
-				
-				row.push( "&nbsp;<input type='checkbox' name='_md_pref' value='{siteID}'{checked} />{siteName} ".template({siteID: siteID, checked: checked, siteName: siteName}));
-			});
-			table.push(row);
-		});
-		
-		s += Table(table);
-		s += "<br /><button id='_md_close'>Close</button>"
-		s += "</div>"
-		prefs.innerHTML = s;
-		document.body.appendChild(prefs);
-		
-		addEvent("_md_close", "click", function (e){ hide("_md_prefs");});
-		addEvent("_md_display_type", "change", function(e){
-			var select = $("_md_display_type");
-			GM_setValue("linkStyle", select.options[select.selectedIndex].value);
-		});
-		xpath("//input[@name='_md_pref']", prefs, function(box){addEvent(box, "click", setPreference);} );
+		CreatePreferencesPanel(prefs);
 	}
 
 	prefs.style.display="";
@@ -201,10 +243,7 @@ function LinkEmUp(){
 		if (titleNode != null) {
 			titleNode = whichSite.processTitleNode(titleNode);
 			
-			if (whichSite.getTitleFromTitleNode)
-				movieName = whichSite.getTitleFromTitleNode(titleNode);
-			else
-				movieName = $T(titleNode);
+			movieName = whichSite.getTitleFromTitleNode(titleNode);
 		}
 		else return; // abort if the xpath gave us nothing
 	}
@@ -233,21 +272,35 @@ function LinkEmUp(){
 	
 	whichSite.prepareToInsert(titleNode);
 
-	titleNode.innerHTML += ( "<span id='_md_links'><br />" + s + "</span>");
+	var insertBreak = (!whichSite.insertBreak) ? "" : "<br />";
+	
+	var whereToInsert = whichSite.getWhereToInsert(titleNode);
+	
+	whereToInsert.innerHTML += ( "<span id='_md_links'>" + insertBreak + s + "</span>");
 	addEvent("_md_prefs_link", "click", ShowPreferences);
 	addEvent("_md_config", "click", ShowPreferences);
 }
 
-addCSS(
-	"#_md_links, #_md_prefs, #_md_links a {font-size:10pt;font-weight:normal;text-transform: none;}",
-	"#_md_prefs_link {cursor: pointer;}",
-	"a._md_config { font-size:10pt;font-weight:normal;text-transform: none; text-decoration: none; cursor: pointer; color: black;}",
-	"a._md_config:hover { background: #336699; color: white; cursor: pointer;}",
-	"#_md_prefs {position:fixed; bottom:auto; left:0; right:0; top:0; color:black; font: normal 11px sans-serif; background:#eee; border-bottom:2px #69c solid;}",
-	"#_md_prefs, #_md_prefs td {font-family: verdana, sans-serif; font-size: 10pt;}",
-	"#_md_prefs div {padding:5px 0 0.4em 0; margin: 0px auto;width: 700px;}",
-	"#_md_prefs button {font: normal 11px sans-serif; border: 1px solid #0080cc; color: #333; cursor: pointer; background: #FFF;}"
-	);
+function runHomepageCode(){
+	if ( -1 == location.pathname.indexOf('/dev/grease/moviedude/'))
+			return false;
+			
+	var your_version = $('your-version');
+	if (your_version != null){
+		your_version.innerHTML = "(You have version <%= @script_info['version'] %>.)"
+	}
+			
+	return true;
+}
+
+addCSS("<%= includeCSS 'dude.css' %>");
 
 GM_registerMenuCommand("<%= @script_info['title_short'] %> Settings...", ShowPreferences);
-LinkEmUp();
+
+var site_names = [];
+
+if(!runHomepageCode())
+{
+	LinkEmUp();
+	foreach_dict(Sites, function(key,value){if (value.canLinkTo()) site_names.push(key);});
+}

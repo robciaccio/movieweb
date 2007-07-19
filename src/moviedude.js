@@ -4,20 +4,21 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.6.7',
-		'description' => "Cross-links game sites so you don't have to.",
+		'version' => '1.7.2',
+		'description' => "Cross-links game sites so you don't have to."
 	}
 %>
 // ==UserScript==
 // @name The Movie Dude
 // @namespace	http://adamv.com/greases/
 // @description 	<%= @script_info['description'] %>
-// @include	http://adamv.com/dev/grease/moviedude*
+// @include	http://adamv.com/dev/grease/moviedude/
+// @include	http://adamv.dev/dev/grease/moviedude/
 // @include	http://imdb.com/title/*
 // @include	http://*.imdb.com/title/*
 // @include	http://netflix.com/Movie/*
 // @include	http://www.netflix.com/Movie/*
-// @include	http://www.blockbuster.com/online/catalog/movieDetails*
+// @include	http://www.blockbuster.com/catalog/movieDetails*
 // @include http://blockbuster.co.uk/*
 // @include http://www.blockbuster.co.uk/*
 // @include	http://movies.yahoo.com/*
@@ -45,10 +46,13 @@
 // @include http://www.slantmagazine.com/dvd/*
 // @include http://filmspot.com/*
 // @include http://www.filmspot.com/*
+// @include http://www.fandango.com/*
+// @include http://www.scifi.com/sfw/screen/*
 // ==/UserScript==
 
 var icons = {
 	allmovie : "data:image/gif;base64,R0lGODlhEAAQAKIAAJPH5S%2BPyQx7v1yq2f3%2B%2F7%2Fg8%2B32%2FN3t%2BCH5BAAAAAAALAAAAAAQABAAAANJKLrcriA8FwiYrZCDVzAEIXXDEV4dAIDH%2BAyXSQwYQANhMQXFEOAEA80xKKhWp4dtMQi1Gr8GaMb49SSBksFQ0HkCLrDY1WkkAAA7",
+	bb_us: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8%2F9hAAAABGdBTUEAAK%2FINwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAALKSURBVHjajFNLaxNRFP7uI5mkMWn6pNZ3Ka3tVpEqCgoVN27cuHDlShB3%2FgD9OQoi7orgQlBExG60INKW1j6saRObZJrMTO7cucczMUIFFw6cOWfuPee73%2FnOHXH1fAavn9%2BEMWOIOjEyGQ9KKYRhAJfE8HJ5KO3h89IqpieHAVVERjnPmdqwc95Rjf96BISQ6bvM8RAgx6XMnhXOTv4FQN23ZFN5ITN9gugMF04zlZmpiYFjWdWeEVQ%2FDhMUhQ1KZANohs1B6lmI3KhWmBHCTCHxZ3OifVLI5hCFzSLIoKByjOMxkyyIEkCXIPRwqJ2hc%2FDXXgjaH8kmPuACppLwZhmkhiDz00gBKF13HfYxf1tQZw%2BIY9JxRMVkd31ElhVcHEH0zwOZccBssO1xInuZ%2B62DHuQ9lkGPQZYnuj1r52Ci%2FaStrSi4rIQu8np9ASIzClG8yCBVwDsGWbzAcYXj0wy6AyFLcOEmVDOAWPhgvix%2Bitemhmh8cKy%2FLHUMcWQOcvQuH%2BwgZR6U9t5eAh0swtXfwFVfwu2%2FiwVz62cbYCs9up198PjhiXtUOglnudf8LBB9BcVpvw3WwHGax1YArIMjEaRjZHXA2agX%2BlVdyDYodxY4%2BAhqvWeqfSzBJKivwGRYxNiwZyDHmthQpgDx9UsFff%2FOibkrs615y1girvFUTzF13k4nY3YgreHYcf9NiKjJVRamI2z3Il2ephu3rkXPKPG0NRbw3%2FKk0lOIT2SKrbjTasQHDd%2F6fgvNle9uZ2PX1RoBtrsAW1u2Giw3AlFUpajtqLbvKpVqsrO8mWyvV9zeJsdrFbfrh6i3DbW3a1Tnc1pcalIA9WE12X3yKnq69ZPCxZVk81uV9n7Uk4YfoMlEQs7ppMk9rWzPJ%2BlaOgXVmwLfEhzpJfwpOFyUxq5XmPRiEt0r9ns2%2BR6YPVTkDhn96z%2F9JcAAPT9yR2OXfZIAAAAASUVORK5CYII%3D",
 	blockbuster: 'data:image/gif;base64,R0lGODlhEAAQAKIAACMiNunXmvXRY9u4aGVJIKOFSRAibXF0fCH5BAAAAAAALAAAAAAQABAAAANjaLp7zgoQd2S4gJ0y7ijEIASZclyCGAyhIBBLyxYjQQsFI7JhALqDkmEgKtB4gZGQs0sRWgGYIrTbcUaVDIDIcxmBNgPg+rS6VgFTkeMjXN6mVOpCGIMAQq6xDtHUhX2BggYJADs=',
 	ebert:
 'data:image/gif;base64,R0lGODlhEAAQAKIAALCLa6g2NXggHMGjfqhpVdHHls2/kYFOPiH5BAAAAAAALAAAAAAQABAAAANbGKrUdCLKBYwt1gAp1MAXWAwTAVrAkBVEFHxXS6ykYmCYq2ZQsBqHIMwCmWWOx0IPWWg6m8sjYEqdRm+kzmLRuWVcqYG4N1R2ncAOQLQxXWqBmYjZWhiRt40iAQA7',
@@ -56,15 +60,7 @@ var icons = {
 	noFavicon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8%2F9hAAAABGdBTUEAAK%2FINwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGHSURBVHjaYvz%2F%2Fz8DIyOjDAMDgzgQMzPgB6%2BA%2BBFQzz%2BYAEAAMYAMAALjHz9%2BfPj9%2B%2FffP3%2F%2B%2FMeGgfL%2Fp0yZMhGoVgGImUD6QBgggGAGmIE0f%2Fny5f%2FXr1%2Fh%2BOPHj%2F%2Ffv3%2F%2F%2F%2BXLl2BDnj9%2F%2Fn%2Fq1KkohgAE4GiOUQCAQhCA8u9%2Fgq7YFASGkx8dwkVfHj8DLtydSCZ9u6uZUXcHACA%2FqaogBr4AYoQaYApUcPLv379wr%2F379w%2FsOqA4A9BQBkFBQZTAYGFhMQdSpwECiAVZkImJCRSgcDbIQGZmZgY2NjYGoEvAhoIMFBMTg%2BsBCCAUA2CaYWyQZmQ%2BzEBkABBALPjiDNkQEBuEYQEHAwABxEIg3sGakL2GDgACiImBCADTDHINyDBkABBAOF2A7FRoagUHIjoACCCCXkA2CN12EAAIIBZ8zobZjA8ABBCyAf%2BhiQprtKKBf1DX%2FQcIIFB6Bmn8B4zj7zAJAgCk9huQBidbgABihDpTFpqdiYoVqOZXQL2PAQIMAIeX65Ph3kulAAAAAElFTkSuQmCC'
 };
 
-var SiteGroups = [
-	["Information", ["imdb", "allmovie", "wikipedia", "filmspot"]],
-	["Social", ["filmaff", "flixster"]],
-	["Rentals", ["netflix", "greencine", "intelliflix"]],
-	["", ["bb", "bb_uk"]],
-	["Critics", ["ebert","rotten", "metacritic", "slant"]],
-	["Times &amp; Sales", ["yahoo", "walmart"]],
-	["Amazon", ["am_us", "am_uk", "am_ca"]]
-];
+var site_columns = 5;
 
 // -- Site definitions
 var Sites = {
@@ -108,9 +104,9 @@ var Sites = {
 
 	bb: {
 		name: "Blockbuster (US)",
-		xpath: "//div[@class='pagetitle']//h1",
+		xpath: "//div[@class='contents contentsPrimary']//h1",
 		link: "http://www.blockbuster.com/online/search/PerformKeyWordSearchAction?channel=Movies&subChannel=sub&keyword={search}",
-		icon: "http://www.blockbuster.com/app/v.4.12.2/img/favicon.png",
+		icon: icons.bb_us,
 		scanURL:"blockbuster.com",
 	},
 
@@ -120,6 +116,20 @@ var Sites = {
 		link: "http://www.blockbuster.co.uk/{search}/0/basic.aspx",
 		icon: icons.blockbuster,
 		scanURL:"blockbuster.co.uk",
+	},
+	
+	cdcovers: {
+		name: "Cdcovers",
+		link: "http://www.cdcovers.cc/search/all/{search}",
+		icon: "http://www.cdcovers.cc/favicon.ico",
+	//	scanURL: "cdcovers.cc"
+	},
+	
+	covertarget: {
+		name: "CoverTarget",
+		link: "http://www.covertarget.com/s2.php?search={search}&cat=1",
+		icon: "http://www.covertarget.com/favicon.ico",
+	//	scanURL: "covertarget.com"
 	},
 	
 	ebert: {
@@ -139,11 +149,32 @@ var Sites = {
 				SearchType: "1",
 				qrender: "", Partial: "", q: "*"}],
 	},
+	
+	fandango: {
+		name: "Fandango",
+		link: "http://www.fandango.com/GlobalSearch.aspx?tab=Movies&q={search}&repos=Movies",
+		scanURL: "fandango.com",
+		icon: "http://www.fandango.com/favicon.ico",
+		xpath: "//*[@class='sIFR-alternate']",
+		insertBreak: false,
+		
+		getWhereToInsert: function(titleNode){
+			var parent = document.getElementById('content');
+			var where = document.createElement('div');
+			parent.insertBefore(where, parent.firstChild);
+			return where;
+		},
+		
+		getTitleFromTitleNode: function(titleNode){
+			return $T(titleNode.firstChild);
+		},
+	},
 
 	filmaff: {
 		name: "FilmAffinity",
 		link: "http://www.filmaffinity.com/en/search.php?stype=title&stext={search}",
 		scanURL: "filmaffinity.com",
+		icon: "http://www.filmaffinity.com/favicon.ico",
 		},
 		
 	filmspot: {
@@ -164,11 +195,18 @@ var Sites = {
 			titleNode.style.height = "auto";
 		}
 	},
-
+	
+	freecovers: {
+		name: "FreeCovers",
+		link: "http://www.freecovers.net/search.php?search={search}&cat=1",
+		icon: "http://www.freecovers.net/favicon.ico",
+		scanURL: "freecovers.net",
+	},
+	
 	greencine: {
 		name: "GreenCine",
 		xpath: "//*[@class='header1']",
-		icon: "http://www.greencine.com/favicon.ico",
+		icon: "http://www.greencine.com/central/files/niftydrupalclean_favicon.ico",
 		form: ["http://www.greencine.com/catalogQuickSearch", {SEARCH_STRING: "*"}],
 		scanURL:"greencine.com",
 	},
@@ -239,6 +277,28 @@ var Sites = {
 		link: "http://www.rottentomatoes.com/search/full_search.php?search={search}",
 		icon: "http://www.rottentomatoes.com/favicon.ico",
 		scanURL:"rottentomatoes.com",
+	},
+	
+	scifiweekly: {
+		name: "Sci Fi Weekly",
+		link: "http://search.scifi.com/search?q={search}&btnG=Search&ie=&site=sfw&output=xml_no_dtd&client=sfw&lr=&proxystylesheet=sfw&oe=",
+		xpath: "//span[@class='title']",
+		scanURL: "scifi.com",
+		icon: "http://www.scifi.com/favicon.ico",
+		getTitle: function(movieName){
+			foreach(["Unrated DVD", "DVD"], function(suffix){
+				if (movieName.endsWith(suffix)){
+					movieName = movieName.removeSuffix(suffix).trim();
+					return true;
+				}
+			});
+			
+			// Strip off "Season-####..." from the name, to make external searches work better.
+			var re = new RegExp("Season-.*(Premiere|DVD)$");
+			movieName = movieName.replace(re, "");
+
+			return movieName;
+		}
 	},
 	
 	sho: {
