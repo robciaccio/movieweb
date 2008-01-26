@@ -13,7 +13,7 @@ SCRIPT_DIST_DIR = File.join(SCRIPT_ROOT, 'dist')
 SCRIPT_PKG_DIR  = File.join(SCRIPT_ROOT, 'pkg')
 SCRIPT_VERSION  = 'zipped'
 
-task :default => [:dist, :package, :clean_package_source]
+task :default => [:dist]
 
 task :dist do
   $:.unshift File.join(SCRIPT_ROOT, 'lib')
@@ -26,20 +26,4 @@ task :dist do
       end
     }
   end
-end
-
-Rake::PackageTask.new('dude', SCRIPT_VERSION) do |package|
-  package.need_tar_gz = true
-  package.package_dir = SCRIPT_PKG_DIR
-  package.package_files.include(
-    '[A-Z]*',
-    'dist/*.user.js',
-    'lib/**',
-    'src/**',
-    'test/**'
-  )
-end
-
-task :clean_package_source do
-  rm_rf File.join(SCRIPT_PKG_DIR, "dude-#{SCRIPT_VERSION}")
 end

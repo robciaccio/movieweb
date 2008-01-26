@@ -8,9 +8,17 @@ class String
   def strip_whitespace_at_line_ends
     lines.map {|line| line.gsub(/\s+$/, '')} * $/
   end
+  
+  def on_one_line
+    lines.join(' ')
+  end
+  
+  def encode_quotes
+    gsub(/\"/, '\\"')
+  end
 end
 
-module Dudemaker
+module GreaseMaker
   class Preprocessor
     def include(*filenames)
       filenames.map {|filename| Preprocessor.new(filename, get_binding).to_s}.join("\n")
@@ -18,7 +26,7 @@ module Dudemaker
     
     def includeCSS(filename)
       loaded = Preprocessor.new(filename, get_binding).to_s
-      return loaded.gsub(/\n/, ' ').gsub(/\"/, '\\"')
+      return loaded.on_one_line.encode_quotes
     end
     
     def initialize(filename, aBinding = nil)

@@ -4,7 +4,7 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.7.6b',
+		'version' => '1.7.7',
 		'description' => "Cross-links game sites so you don't have to."
 	}
 %>
@@ -52,6 +52,7 @@
 // @include http://www.avclub.com/*
 // @include http://*.allocine.fr/*
 // @include	http://*.zip.ca/browse/title.aspx?*
+// @include http://www.moviestar.ie/films/*
 // ==/UserScript==
 
 var icons = {
@@ -60,6 +61,7 @@ var icons = {
 	blockbuster: 'data:image/gif;base64,R0lGODlhEAAQAKIAACMiNunXmvXRY9u4aGVJIKOFSRAibXF0fCH5BAAAAAAALAAAAAAQABAAAANjaLp7zgoQd2S4gJ0y7ijEIASZclyCGAyhIBBLyxYjQQsFI7JhALqDkmEgKtB4gZGQs0sRWgGYIrTbcUaVDIDIcxmBNgPg+rS6VgFTkeMjXN6mVOpCGIMAQq6xDtHUhX2BggYJADs=',
 	ebert:
 'data:image/gif;base64,R0lGODlhEAAQAKIAALCLa6g2NXggHMGjfqhpVdHHls2/kYFOPiH5BAAAAAAALAAAAAAQABAAAANbGKrUdCLKBYwt1gAp1MAXWAwTAVrAkBVEFHxXS6ykYmCYq2ZQsBqHIMwCmWWOx0IPWWg6m8sjYEqdRm+kzmLRuWVcqYG4N1R2ncAOQLQxXWqBmYjZWhiRt40iAQA7',
+	moviestar: 'data:image/gif;base64,R0lGODlhEAAQANUAAJOYxXm85ixFmE9YoWW25Vy05G255qClzIWr17u%2F29bY6YWLvm%2BCunZ%2Bt57N7EFLmmpxrzM%2BknSg0nmczjhirD5QnqzH41Sy42aw4EJeqCo5kVeLxkSBwq6y1FdvsY2kzqK73DNSoZe94FBgpmRvrnaNwZiv1cnM4lprrOTl8UltskV0uFxlqPHy%2BLnZ76rR7Eyv4iYxi%2F%2F%2F%2FwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAAQABAAAAaUwJdQaGEwTK6k0jV8gTQx1uKzTDZLsZhCRnK8ls1K7CGTpVCItIj5ckyyi7Ksw6oPJpJRdnBoyf8tYjENfn%2BGLAJZLIWGZQAxHlljW40KMQIBiZIJjS0xEgEYGZIAjTIDAQEGBipZpWUnhQcbBgQEK64yLRBZDQkHFAQFBRRZEAkRkpIhBTDOWclZzjBZHBfT2NnYQQA7',
 
 	noFavicon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8%2F9hAAAABGdBTUEAAK%2FINwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGHSURBVHjaYvz%2F%2Fz8DIyOjDAMDgzgQMzPgB6%2BA%2BBFQzz%2BYAEAAMYAMAALjHz9%2BfPj9%2B%2FffP3%2F%2B%2FMeGgfL%2Fp0yZMhGoVgGImUD6QBgggGAGmIE0f%2Fny5f%2FXr1%2Fh%2BOPHj%2F%2Ffv3%2F%2F%2F%2BXLl2BDnj9%2F%2Fn%2Fq1KkohgAE4GiOUQCAQhCA8u9%2Fgq7YFASGkx8dwkVfHj8DLtydSCZ9u6uZUXcHACA%2FqaogBr4AYoQaYApUcPLv379wr%2F379w%2FsOqA4A9BQBkFBQZTAYGFhMQdSpwECiAVZkImJCRSgcDbIQGZmZgY2NjYGoEvAhoIMFBMTg%2BsBCCAUA2CaYWyQZmQ%2BzEBkABBALPjiDNkQEBuEYQEHAwABxEIg3sGakL2GDgACiImBCADTDHINyDBkABBAOF2A7FRoagUHIjoACCCCXkA2CN12EAAIIBZ8zobZjA8ABBCyAf%2BhiQprtKKBf1DX%2FQcIIFB6Bmn8B4zj7zAJAgCk9huQBidbgABihDpTFpqdiYoVqOZXQL2PAQIMAIeX65Ph3kulAAAAAElFTkSuQmCC'
 };
@@ -288,6 +290,14 @@ var Sites = {
 			titleNode.replaceChild(node, titleNode.firstChild);
 			return node;
 		},
+	},
+	
+	moviestar: {
+		name: "Moviestar",
+		link: "http://www.moviestar.ie/index.php?action=films/search&filter_search_for={search}",
+		scanURL: "moviestar.ie",
+		xpath: "//*[@class='movie_title']",
+		icon: icons.moviestar,
 	},
 
 	movietome: {
