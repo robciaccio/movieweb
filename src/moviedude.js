@@ -4,7 +4,7 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.7.2',
+		'version' => '1.7.6b',
 		'description' => "Cross-links game sites so you don't have to."
 	}
 %>
@@ -44,10 +44,14 @@
 // @include http://www.slantmagazine.com/film/*
 // @include http://www.slantmagazine.com/tv/*
 // @include http://www.slantmagazine.com/dvd/*
-// @include http://filmspot.com/*
-// @include http://www.filmspot.com/*
+// @include http://www.movietome.com/*
 // @include http://www.fandango.com/*
 // @include http://www.scifi.com/sfw/screen/*
+// @include http://criticker.com/*
+// @include http://avclub.com/*
+// @include http://www.avclub.com/*
+// @include http://*.allocine.fr/*
+// @include	http://*.zip.ca/browse/title.aspx?*
 // ==/UserScript==
 
 var icons = {
@@ -64,6 +68,14 @@ var site_columns = 5;
 
 // -- Site definitions
 var Sites = {
+	allocine: {
+		name: "AlloCiné",
+		icon: "http://www.allocine.fr/favicon.ico",
+		link: "http://www.allocine.fr/recherche/?rub=0&motcle={search}",
+		scanURL: "allocine.fr",
+		xpath: "//table//h1/b"
+	},
+	
 	allmovie: {
 		name: "All Movie",
 		icon: icons.allmovie,
@@ -101,6 +113,14 @@ var Sites = {
 			
 		validPage: function(pageTitle){return (pageTitle.indexOfAny(["DVD", "movie info:"]) > -1);}
 	},
+	
+	avclub: {
+		name: "A.V. Club",
+		link: "http://www.avclub.com/content/search/av/advanced2?search={search}&restrict=.site:avclub",
+		xpath: "//div[@id='article_title']//h1",
+		icon: "http://avclub.com/content/themes/avclub/favicon.ico",
+		scanURL: "avclub.com"
+	},
 
 	bb: {
 		name: "Blockbuster (US)",
@@ -130,6 +150,14 @@ var Sites = {
 		link: "http://www.covertarget.com/s2.php?search={search}&cat=1",
 		icon: "http://www.covertarget.com/favicon.ico",
 	//	scanURL: "covertarget.com"
+	},
+	
+	criticker: {
+		name: "Criticker",
+		xpath: "//div[@id='fi_info_filmname']",
+		link: "http://criticker.com/?st=all&h={search}&g=Go",
+		icon: "http://www.criticker.com/favicon.ico",
+		scanURL: "criticker.com",
 	},
 	
 	ebert: {
@@ -177,13 +205,6 @@ var Sites = {
 		icon: "http://www.filmaffinity.com/favicon.ico",
 		},
 		
-	filmspot: {
-		name: "FilmSpot",
-		link: "http://www.filmspot.com/search/index.php?qs={search}&tag=search%3Bbutton",
-		// scanURL: "filmspot.com",
-		xpath: "//div[@id='content_head']//h1/a"
-	},
-		
 	flixster: {
 		name: "Flixster",
 		link: "http://www.flixster.com/movies.do?movieAction=doMovieSearch&search={search}",
@@ -201,6 +222,12 @@ var Sites = {
 		link: "http://www.freecovers.net/search.php?search={search}&cat=1",
 		icon: "http://www.freecovers.net/favicon.ico",
 		scanURL: "freecovers.net",
+	},
+	
+	google_movies: {
+		name: "Google Movies",
+		link: "http://www.google.com/movies?q={search}",
+		icon: "http://www.google.com/favicon.ico",
 	},
 	
 	greencine: {
@@ -263,6 +290,18 @@ var Sites = {
 		},
 	},
 
+	movietome: {
+		name: "MovieTome",
+		icon: "http://www.movietome.com/favicon.ico",
+		link: "http://www.movietome.com/search/index.php?qs={search}&tag=searchtop%3Bbutton",
+		scanURL: "movietome.com",
+		xpath: "//div[@id='content_head']//h1/a",
+
+		getWhereToInsert: function(titleNode){
+			return document.getElementById("eyebrow");
+		},
+	},
+		
 	netflix: {
 		name: "NetFlix",
 		xpath: "//div[@class='title']",
@@ -273,8 +312,8 @@ var Sites = {
 
 	rotten: {
 		name: "Rotten Tomatoes",
-		xpath: "//div[@id='main']//td//div",
-		link: "http://www.rottentomatoes.com/search/full_search.php?search={search}",
+		xpath: "//h1[@class='movie_title']",
+		link: "http://www.rottentomatoes.com/search/web_search.php?q={search}&sitesearch=www.rottentomatoes.com",
 		icon: "http://www.rottentomatoes.com/favicon.ico",
 		scanURL:"rottentomatoes.com",
 	},
@@ -335,6 +374,20 @@ var Sites = {
 		link: "http://movies.yahoo.com/mv/search?p={search}",
 		icon: "http://www.yahoo.com/favicon.ico",
 		scanURL:"movies.yahoo.com",
+	},
+	
+	youtube: {
+		name: "YouTube",
+		link: "http://www.youtube.com/results?search_query={search}&search=Search",
+		icon: "http://www.youtube.com/favicon.ico",
+		scanURL: "youtube.com"
+	},
+	
+	zip_ca: {
+		name: "Zip.ca",
+		link: "http://www.zip.ca/browse/search.aspx?f=wc(the%20prestige)~t(-1)&j=1",
+		scanURL: "zip.ca",
+		xpath: "//h3[@id='bc_WaveTitle']",
 	},
 };
 

@@ -8,6 +8,8 @@
 		'description' => "Cross-links game sites so you don't have to.",
 		'icon' => "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8%2F9hAAAABGdBTUEAAK%2FINwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIsSURBVDjLnZPNi1JhFMbvKtoHBa1atgmCtv0VrVq0aCkGCn6mYH47ip8IflAKhibpRke00BnnKiKoiKA7qSkF08FvvToak%2Ff0ngu2qBYzXngu3Jf3%2Bb3nPee5VCAQcPj9%2FucAQB0iyufzPXS73Wd2u%2F3RQQB8Wa1Wiclkqms0mrsHAQwGwy21Wn2qUCjOxGLxHVyrVCpHpVKJpWmazeVy20wmQyeTyaf%2FBaAKhcIrkUh04XA4vhSLxTIxX5IHULMCDd%2BPkxCLxbaRSETxD6DVamUbjcavWq22LZfLMBqNgGEYuJgs4TxbhG9PHnManuQgGAyypOnv%2FwCazaat2%2B1yJ735pOCMy%2BUSBuMFvPzIwosPAMW3xzDwemA%2BHHL78vk82Gy2Iw5APtZoms%2FnHGCv2WwGP4Zz6AwWsFgsYLVacUI47jUajTvS9GcUaQ6LgL%2FNe3U6HSBVgtPpZFHT6ZSrst1ug1Kp%2FEolEokdUveGPWAymUA2m4V0Og1kD5AxX1osFo1er2fxGpvNBiQSCVDxeJzp9%2FtcWWjEcsfjMVSrVUilUth5IEYgo%2F6Md1apVDSu46FCoRCoaDR6gp1HIwLQ7PV6ezKZbMnj8YBoKZVKUzqd7h4C5HL5bZKVU4FAMOHz%2BU4qHA6%2FRiJOAgFIJvFmrp3EUCj0gMyVqdfr0Ov1YL1eg8vl2t0oyh6P5x2JKZAwAQkVNuznjQDkb7xPgnFuNpuvyHyvtFpt%2BbqA3zDZAQQexaeGAAAAAElFTkSuQmCC"
 	}
+	
+	@user_script = <<END_USER_SCRIPT
 %>
 // ==UserScript==
 // @name The Game Dude: Working Version
@@ -29,6 +31,9 @@
 // @include       http://www.lemon64.com/*
 // @include       http://product.half.ebay.com/*
 // ==/UserScript==
+<%
+END_USER_SCRIPT
+%>
 
 var Version = "1.6";
 

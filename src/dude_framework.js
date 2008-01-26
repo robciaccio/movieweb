@@ -119,11 +119,11 @@ function GetSitePref(siteID){
 	return ( "&nbsp;<input type='checkbox' name='_md_pref' id='_md_pref_{siteID}' value='{siteID}'{checked} /> <label for='_md_pref_{siteID}'><img src='{icon}' width='16' height='16' border='0' /> {siteName}</label>".template({siteID: siteID, checked: checked, siteName: siteName, icon: Sites[siteID].icon}));
 }
 
-function GetNewPreferenceRow(rowNumber){
+function GetNewPreferenceRow(totalRows, rowNumber){
 	var row = [];
 
 	for(var col=0; col < 4; col++){
-		var realIndex = col*6+rowNumber;
+		var realIndex = col*totalRows+rowNumber;
 		
 		if (realIndex < site_names.length){
 			row.push(GetSitePref(site_names[realIndex]))
@@ -144,7 +144,7 @@ function CreatePreferencesPanel(prefs_div){
 	
 	s += "<b>Display as:</b> ";
 	s += Html.Select("_md_display_type", GM_getValue("linkStyle", "0"), 
-		[["0", "Text &amp; Icons"],["1", "Icons only"],["2","Text only"]]);
+		[["0", "Icon &amp; Text"],["1", "Text &amp; Icon"],["2", "Icons only"],["3","Text only"]]);
 
 	s += '<br />';
 
@@ -152,8 +152,9 @@ function CreatePreferencesPanel(prefs_div){
 	
 	
 	var table = [];
-	for(var row=0; row < 6; row++){
-		table.push(GetNewPreferenceRow(row));
+	var number_of_rows = Math.ceil(site_names.length / 4);
+	for(var row=0; row < number_of_rows; row++){
+		table.push(GetNewPreferenceRow(number_of_rows, row));
 	}
 	
 	table_html = Table(table);
@@ -227,11 +228,18 @@ function LinkEmUp(){
 	if (whichSite == null) return;
 
 	var LinkTemplates = [
+	'&nbsp;&nbsp;&nbsp;&nbsp;<a href="{href}" title="{name}"><img src="{icon}" width="16" height="16" border="0" />{name}</a>',
 	'&bull;&nbsp;<a href="{href}" title="{name}">{name}</a>&nbsp;<a href="{href}" title="{name}"><img src="{icon}" width="16" height="16" border="0" /></a> ',
 	'<a href="{href}" title="{name}"><img src="{icon}" width="16" height="16" border="0" /></a> ',
 	'&bull;&nbsp;<a href="{href}" title="{name}">{name}</a> ',
 	];
-
+/*
+ 	LinkTemplates = [
+	'&bull;&nbsp;<a href="{href}" title="{name}">{name}</a>&nbsp;<a href="{href}" title="{name}"><img src="{icon}" width="16" height="16" border="0" /></a> ',
+	'<a href="{href}" title="{name}"><img src="{icon}" width="16" height="16" border="0" /></a> ',
+	'&bull;&nbsp;<a href="{href}" title="{name}">{name}</a> ',
+	];
+*/
 	Site.prototype.LinkTemplate = LinkTemplates[parseInt(GM_getValue("linkStyle", "0"))];
 	
 	var movieName = "";
