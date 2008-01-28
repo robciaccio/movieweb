@@ -9,7 +9,7 @@
 	}
 %>
 // ==UserScript==
-// @name The Movie Dude
+// @name <%= @script_info['title'] %>
 // @namespace	http://adamv.com/greases/
 // @description 	<%= @script_info['description'] %>
 // @include	http://adamv.com/dev/grease/moviedude/
