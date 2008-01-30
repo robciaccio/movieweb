@@ -4,7 +4,7 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.7.7',
+		'version' => '1.7.7b',
 		'description' => "Cross-links game sites so you don't have to."
 	}
 %>
@@ -395,7 +395,7 @@ var Sites = {
 	
 	zip_ca: {
 		name: "Zip.ca",
-		link: "http://www.zip.ca/browse/search.aspx?f=wc(the%20prestige)~t(-1)&j=1",
+		link: "http://www.zip.ca/browse/search.aspx?f=wc({seach})~t(-1)&j=1",
 		scanURL: "zip.ca",
 		xpath: "//h3[@id='bc_WaveTitle']",
 	},
