@@ -4,8 +4,8 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.7.7b',
-		'description' => "Cross-links game sites so you don't have to."
+		'version' => '1.7.8',
+		'description' => "Cross-links movie sites so you don't have to."
 	}
 %>
 // ==UserScript==
@@ -53,6 +53,7 @@
 // @include http://*.allocine.fr/*
 // @include	http://*.zip.ca/browse/title.aspx?*
 // @include http://www.moviestar.ie/films/*
+// @include http://*.quickflix.com.au/*/viewmovie/*
 // ==/UserScript==
 
 var icons = {
@@ -319,11 +320,19 @@ var Sites = {
 		icon: "http://cdn.nflximg.com/us/icons/nficon.ico",
 		scanURL:"netflix.com",
 	},
+	
+	quickflix: {
+		name: "Quickflix",
+		link: "http://www.quickflix.com.au/public/tools/viewsearchall.aspx?SearchText={search}",
+		xpath: "//h1[@class='MovieTitle']",
+		icon: "http://www.quickflix.com.au/favicon.ico",
+		scanURL: "quickflix.com.au",
+	},
 
 	rotten: {
 		name: "Rotten Tomatoes",
 		xpath: "//h1[@class='movie_title']",
-		link: "http://www.rottentomatoes.com/search/web_search.php?q={search}&sitesearch=www.rottentomatoes.com",
+		link: "http://www.rottentomatoes.com/search/full_search.php?search={search}",
 		icon: "http://www.rottentomatoes.com/favicon.ico",
 		scanURL:"rottentomatoes.com",
 	},
@@ -395,7 +404,11 @@ var Sites = {
 	
 	zip_ca: {
 		name: "Zip.ca",
+<<<<<<< .mine
+		link: "http://www.zip.ca/Browse/Search.aspx?test=1&f=wc({search})~t(-1)",
+=======
 		link: "http://www.zip.ca/browse/search.aspx?f=wc({seach})~t(-1)&j=1",
+>>>>>>> .r27
 		scanURL: "zip.ca",
 		xpath: "//h3[@id='bc_WaveTitle']",
 	},
