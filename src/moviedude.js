@@ -4,7 +4,7 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.7.8',
+		'version' => '1.7.9',
 		'description' => "Cross-links movie sites so you don't have to."
 	}
 %>
@@ -54,6 +54,7 @@
 // @include	http://*.zip.ca/browse/title.aspx?*
 // @include http://www.moviestar.ie/films/*
 // @include http://*.quickflix.com.au/*/viewmovie/*
+// @include http://www.apple.com/trailers/*
 // ==/UserScript==
 
 var icons = {
@@ -115,6 +116,14 @@ var Sites = {
 		scanURL:"amazon.ca",
 			
 		validPage: function(pageTitle){return (pageTitle.indexOfAny(["DVD", "movie info:"]) > -1);}
+	},
+	
+	apple: {
+		name: "Apple Trailers",
+		icon: "http://www.apple.com/favicon.ico",
+		link: "http://www.apple.com/search/downloads/?q={search}",
+		scanURL: "apple.com",
+		xpath: "//*[@class='details']//h1",
 	},
 	
 	avclub: {
@@ -281,8 +290,7 @@ var Sites = {
 		name: "Metacritic",
 		xpath: "//td[@id='rightcolumn']/h1",
 		icon: "http://www.metacritic.com/favicon.ico",
-		form: ["http://www.metacritic.com/search/process", { 
-				sort: "relevance", termtype: "all", ts: "*", ty: "1" }],
+		link: "http://www.metacritic.com/search/process?sb=0&tfs=all&ts={search}&ty=0",
 		scanURL:"metacritic.com",
 		
 		processTitleNode: function(titleNode){
@@ -404,11 +412,7 @@ var Sites = {
 	
 	zip_ca: {
 		name: "Zip.ca",
-<<<<<<< .mine
-		link: "http://www.zip.ca/Browse/Search.aspx?test=1&f=wc({search})~t(-1)",
-=======
 		link: "http://www.zip.ca/browse/search.aspx?f=wc({seach})~t(-1)&j=1",
->>>>>>> .r27
 		scanURL: "zip.ca",
 		xpath: "//h3[@id='bc_WaveTitle']",
 	},
