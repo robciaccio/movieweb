@@ -4,7 +4,7 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.7.9',
+		'version' => '1.7.10',
 		'description' => "Cross-links movie sites so you don't have to."
 	}
 %>
@@ -55,6 +55,7 @@
 // @include http://www.moviestar.ie/films/*
 // @include http://*.quickflix.com.au/*/viewmovie/*
 // @include http://www.apple.com/trailers/*
+// @include http://www.moviestamper.com/movie.php?*
 // ==/UserScript==
 
 var icons = {
@@ -299,6 +300,13 @@ var Sites = {
 			titleNode.replaceChild(node, titleNode.firstChild);
 			return node;
 		},
+	},
+	
+	moviestamper: {
+		name: "Movie Stamper",
+		link: "http://www.moviestamper.com/search.php?t={search}",
+		scanURL: "moviestamper.com",
+		xpath: "//div[@id='movie']//h2",
 	},
 	
 	moviestar: {
