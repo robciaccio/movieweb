@@ -4,7 +4,7 @@
 		'title_short' => 'Movie Dude',
 		'home' => 'http://adamv.com/dev/grease/moviedude',
 		'contact' => 'Movie.Dude.Script@gmail.com',
-		'version' => '1.7.10',
+		'version' => '1.7.11',
 		'description' => "Cross-links movie sites so you don't have to."
 	}
 %>
@@ -37,7 +37,6 @@
 // @include	http://www.metacritic.com/video/*
 // @include	http://www.metacritic.com/film/*
 // @include http://www.filmaffinity.com/*
-// @include http://www.intelliflix.com/*
 // @include http://www.flixster.com/*
 // @include http://www.hbo.com/apps/schedule/*
 // @include http://www.sho.com/site/schedules/*
@@ -279,14 +278,6 @@ var Sites = {
 		}
 	},
 
-	intelliflix: {
-		name: "Intelliflix",
-		xpath: "//td/font/font/b",
-		link: "http://www.intelliflix.com/movie_search.dvd?source=simple&search_field=Keyword&search_text={search}&genre=0",
-		icon: "http://www.intelliflix.com/favicon.ico",
-		scanURL: "intelliflix.com",
-	},
-
 	metacritic: {
 		name: "Metacritic",
 		xpath: "//td[@id='rightcolumn']/h1",
@@ -420,7 +411,7 @@ var Sites = {
 	
 	zip_ca: {
 		name: "Zip.ca",
-		link: "http://www.zip.ca/browse/search.aspx?f=wc({seach})~t(-1)&j=1",
+		link: "http://www.zip.ca/browse/search.aspx?f=wc({search})~t(-1)&j=1",
 		scanURL: "zip.ca",
 		xpath: "//h3[@id='bc_WaveTitle']",
 	},
