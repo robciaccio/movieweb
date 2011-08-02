@@ -90,12 +90,12 @@ var Sites = {
 
 	am_us: {
 		name: "Amazon (US)",
-		xpath: "//b[@class='sans']",
+		xpath: "//span[@id='btAsinTitle']",
 		icon: "http://www.amazon.com/favicon.ico",
 		link: "http://www.amazon.com/s/?url=search-alias%3Ddvd&field-keywords={search}", 
 		scanURL:"amazon.com",
 			
-		validPage: function(pageTitle){return (pageTitle.indexOfAny(["DVD:", "movie info:"]) > -1);}
+		validPage: function(pageTitle){return (pageTitle.indexOfAny(["Movies"]) > -1);}
 	},
 
 	am_uk: {
